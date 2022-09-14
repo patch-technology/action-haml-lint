@@ -99,15 +99,7 @@ else
 fi
 
 echo '::group:: Running haml-lint with reviewdog 🐶 ...'
-# shellcheck disable=SC2086
-# ${BUNDLE_EXEC}rubocop ${INPUT_RUBOCOP_FLAGS} --require ${GITHUB_ACTION_PATH}/rdjson_formatter/rdjson_formatter.rb --format RdjsonFormatter \
-#   | reviewdog -f=rdjson \
-#       -name="${INPUT_TOOL_NAME}" \
-#       -reporter="${INPUT_REPORTER}" \
-#       -filter-mode="${INPUT_FILTER_MODE}" \
-#       -fail-on-error="${INPUT_FAIL_ON_ERROR}" \
-#       -level="${INPUT_LEVEL}" \
-#       ${INPUT_REVIEWDOG_FLAGS}
+echo "haml-lint ${INPUT_HAML_LINT_FLAGS} ."
 
 # shellcheck disable=SC2046
 # shellcheck disable=SC2086
