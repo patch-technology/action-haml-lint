@@ -1,6 +1,6 @@
 name: 'Run haml-lint via reviewdog'
 description: '🐶 Run haml-lint with reviewdog on pull requests to improve code review experience.'
-author: 'Anton Dalgren'
+author: 'pcothenet'
 inputs:
   github_token:
     description: 'GITHUB_TOKEN'
