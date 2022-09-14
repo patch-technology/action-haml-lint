@@ -1,13 +1,23 @@
 name: 'Run haml-lint via reviewdog'
 description: '🐶 Run haml-lint with reviewdog on pull requests to improve code review experience.'
-author: 'Anton Dalgren'
+author: 'pcothenet'
 inputs:
   github_token:
     description: 'GITHUB_TOKEN'
     default: '${{ github.token }}'
-  workdir:
-    description: 'Working directory relative to the root directory.'
-    default: '.'
+  ### Flags for haml-lint
+  haml_lint_flags:
+    description: 'Additional haml-lint flags'
+    default: ''
+  tool_name:
+    description: 'Tool name to use for reviewdog reporter'
+    default: 'haml-lint'
+  ### Flags for rubocop ### 
+  rubocop_version:
+    description: 'Rubocop version'
+  rubocop_extensions:
+    description: 'Rubocop extensions'
+    default: 'rubocop-rails rubocop-performance rubocop-rspec rubocop-i18n rubocop-rake'
   ### Flags for reviewdog ###
   level:
     description: 'Report level for reviewdog [info,warning,error]'
@@ -28,13 +38,41 @@ inputs:
   reviewdog_flags:
     description: 'Additional reviewdog flags'
     default: ''
-  ### Flags for haml-lint
-  haml_lint_flags:
-    description: 'Additional haml-lint flags'
-    default: ''
+  workdir:
+    description: "The directory from which to look for and run Rubocop. Default '.'"
+    default: '.'
+  skip_install:
+    description: "Do not install Rubocop or its extensions. Default: `false`"
+    default: 'false'
+  use_bundler:
+    description: "Run Rubocop with bundle exec. Default: `false`"
+    default: 'false'
+
 runs:
-  using: 'docker'
-  image: 'Dockerfile'
+  using: 'composite'
+  steps:
+    - run: $GITHUB_ACTION_PATH/script.sh
+      shell: sh
+      env:
+        REVIEWDOG_VERSION: v0.14.1
+        # INPUT_<VARIABLE_NAME> is not available in Composite run steps
+        # https://github.community/t/input-variable-name-is-not-available-in-composite-run-steps/127611
+        INPUT_GITHUB_TOKEN: ${{ inputs.github_token }}
+        INPUT_RUBOCOP_VERSION: ${{ inputs.rubocop_version }}
+        INPUT_RUBOCOP_EXTENSIONS: ${{ inputs.rubocop_extensions }}
+        INPUT_TOOL_NAME: ${{ inputs.tool_name }}
+        INPUT_LEVEL: ${{ inputs.level }}
+        INPUT_REPORTER: ${{ inputs.reporter }}
+        INPUT_FILTER_MODE: ${{ inputs.filter_mode }}
+        INPUT_FAIL_ON_ERROR: ${{ inputs.fail_on_error }}
+        INPUT_REVIEWDOG_FLAGS: ${{ inputs.reviewdog_flags }}
+        INPUT_WORKDIR: ${{ inputs.workdir }}
+        INPUT_SKIP_INSTALL: ${{ inputs.skip_install }}
+        INPUT_USE_BUNDLER: ${{ inputs.use_bundler }}
+
+# runs:
+#   using: 'docker'
+#   image: 'Dockerfile'
 
 branding:
   icon: 'check-circle'
