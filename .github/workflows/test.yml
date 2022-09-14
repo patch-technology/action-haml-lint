@@ -10,24 +10,24 @@ jobs:
         with:
           ruby-version: 3.1
           bundler-cache: true
-      - name: 1
+      - name: github-check
         uses: ./
         with:
           github_token: ${{ secrets.github_token }}
           reporter: github-check
           level: info
-      # - name: 2 
-      #   uses: ./
-      #   with:
-      #     github_token: ${{ secrets.github_token }}
-      #     reporter: github-pr-check
-      #     level: warning
-      #     workdir: ./testdata/subdir/
-      # - name: 3
-      #   uses: ./
-      #   with:
-      #     github_token: ${{ secrets.github_token }}
-      #     reporter: github-pr-review
-      #     level: error
-      #     haml_lint_config: -c ./testdata/.haml-lint.yml
-      #     reviewdog_flags: -filter-mode=file -fail-on-error
+      - name: github-pr-check with workdir
+        uses: ./
+        with:
+          github_token: ${{ secrets.github_token }}
+          reporter: github-pr-check
+          level: warning
+          workdir: ./testdata/subdir/
+      - name: github-pr-review with extra flags
+        uses: ./
+        with:
+          github_token: ${{ secrets.github_token }}
+          reporter: github-pr-review
+          level: error
+          haml_lint_flags: -c ./testdata/.haml-lint.yml
+          reviewdog_flags: -filter-mode=file -fail-on-error
