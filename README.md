@@ -86,5 +86,3 @@ jobs:
           # Set the rubocop version to the one from your Gemfile
           rubocop_version: gemfile
 ```
-
-
