@@ -1,4 +1,4 @@
-FROM alpine:3.16
+FROM ruby:3.1-alpine
 
 ENV REVIEWDOG_VERSION=v0.14.1
 
