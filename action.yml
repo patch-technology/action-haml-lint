@@ -58,6 +58,7 @@ runs:
         # INPUT_<VARIABLE_NAME> is not available in Composite run steps
         # https://github.community/t/input-variable-name-is-not-available-in-composite-run-steps/127611
         INPUT_GITHUB_TOKEN: ${{ inputs.github_token }}
+        INPUT_HAML_LINT_FLAGS: ${{ inputs.haml_lint_flags }}
         INPUT_RUBOCOP_VERSION: ${{ inputs.rubocop_version }}
         INPUT_RUBOCOP_EXTENSIONS: ${{ inputs.rubocop_extensions }}
         INPUT_TOOL_NAME: ${{ inputs.tool_name }}
