@@ -1,55 +1,57 @@
-name: 'Run haml-lint via reviewdog'
-description: '🐶 Run haml-lint with reviewdog on pull requests to improve code review experience.'
-author: 'pcothenet'
+name: "Run haml-lint via reviewdog"
+description: "🐶 Run haml-lint with reviewdog on pull requests to improve code review experience."
+author: "pcothenet"
 inputs:
   github_token:
-    description: 'GITHUB_TOKEN'
-    default: '${{ github.token }}'
+    description: "GITHUB_TOKEN"
+    default: "${{ github.token }}"
   ### Flags for haml-lint
   haml_lint_flags:
-    description: 'Additional haml-lint flags'
-    default: ''
+    description: "Additional haml-lint flags"
+    default: ""
+  haml_lint_version:
+    description: "The version of haml_lint to use. Use "gemfile" to use the version from Gemfile.lock"
   tool_name:
-    description: 'Tool name to use for reviewdog reporter'
-    default: 'haml-lint'
-  ### Flags for rubocop ### 
+    description: "Tool name to use for reviewdog reporter"
+    default: "haml-lint"
+  ### Flags for rubocop ###
   rubocop_version:
-    description: 'Rubocop version'
+    description: "The version of rubocop to use. Use "gemfile" to use the version from Gemfile.lock"
   rubocop_extensions:
-    description: 'Rubocop extensions'
-    default: 'rubocop-rails rubocop-performance rubocop-rspec rubocop-i18n rubocop-rake'
+    description: "Rubocop extensions"
+    default: "rubocop-rails rubocop-performance rubocop-rspec rubocop-i18n rubocop-rake"
   ### Flags for reviewdog ###
   level:
-    description: 'Report level for reviewdog [info,warning,error]'
-    default: 'error'
+    description: "Report level for reviewdog [info,warning,error]"
+    default: "error"
   reporter:
-    description: 'Reporter of reviewdog command [github-pr-check,github-pr-review].'
-    default: 'github-pr-check'
+    description: "Reporter of reviewdog command [github-pr-check,github-pr-review]."
+    default: "github-pr-check"
   filter_mode:
     description: |
       Filtering for the reviewdog command [added,diff_context,file,nofilter].
       Default is added.
-    default: 'added'
+    default: "added"
   fail_on_error:
     description: |
       Exit code for reviewdog when errors are found [true,false]
       Default is `false`.
-    default: 'false'
+    default: "false"
   reviewdog_flags:
-    description: 'Additional reviewdog flags'
-    default: ''
+    description: "Additional reviewdog flags"
+    default: ""
   workdir:
     description: "The directory from which to look for and run Rubocop. Default '.'"
-    default: '.'
+    default: "."
   skip_install:
     description: "Do not install Rubocop or its extensions. Default: `false`"
-    default: 'false'
+    default: "false"
   use_bundler:
     description: "Run Rubocop with bundle exec. Default: `false`"
-    default: 'false'
+    default: "false"
 
 runs:
-  using: 'composite'
+  using: "composite"
   steps:
     - run: $GITHUB_ACTION_PATH/script.sh
       shell: sh
@@ -59,6 +61,7 @@ runs:
         # https://github.community/t/input-variable-name-is-not-available-in-composite-run-steps/127611
         INPUT_GITHUB_TOKEN: ${{ inputs.github_token }}
         INPUT_HAML_LINT_FLAGS: ${{ inputs.haml_lint_flags }}
+        INPUT_HAML_LINT_VERSION: ${{ inputs.haml_lint_version }}
         INPUT_RUBOCOP_VERSION: ${{ inputs.rubocop_version }}
         INPUT_RUBOCOP_EXTENSIONS: ${{ inputs.rubocop_extensions }}
         INPUT_TOOL_NAME: ${{ inputs.tool_name }}
@@ -71,10 +74,6 @@ runs:
         INPUT_SKIP_INSTALL: ${{ inputs.skip_install }}
         INPUT_USE_BUNDLER: ${{ inputs.use_bundler }}
 
-# runs:
-#   using: 'docker'
-#   image: 'Dockerfile'
-
 branding:
-  icon: 'check-circle'
-  color: 'blue'
+  icon: "check-circle"
+  color: "blue"
