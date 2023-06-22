@@ -10,13 +10,13 @@ inputs:
     description: "Additional haml-lint flags"
     default: ""
   haml_lint_version:
-    description: "The version of haml_lint to use. Use "gemfile" to use the version from Gemfile.lock"
+    description: "The version of haml_lint to use. Use 'gemfile' to use the version from Gemfile.lock"
   tool_name:
     description: "Tool name to use for reviewdog reporter"
     default: "haml-lint"
   ### Flags for rubocop ###
   rubocop_version:
-    description: "The version of rubocop to use. Use "gemfile" to use the version from Gemfile.lock"
+    description: "The version of rubocop to use. Use 'gemfile' to use the version from Gemfile.lock"
   rubocop_extensions:
     description: "Rubocop extensions"
     default: "rubocop-rails rubocop-performance rubocop-rspec rubocop-i18n rubocop-rake"
