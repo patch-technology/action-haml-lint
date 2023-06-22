@@ -83,9 +83,31 @@ if [ "${INPUT_SKIP_INSTALL}" = "false" ]; then
   done
   
   # Installing haml-lint
-  # TODO: make the version configurable
+  # The logic for this is inspired by Rubocop above
+  # if 'gemfile' haml_lint version selected
+  if [ "${INPUT_HAML_LINT_VERSION}" = "gemfile" ]; then
+    # if Gemfile.lock is here
+    if [ -f 'Gemfile.lock' ]; then
+      # grep for rubocop version
+      HAML_LINT_GEMFILE_VERSION=$(ruby -ne 'print $& if /^\s{4}haml_lint\s\(\K.*(?=\))/' Gemfile.lock)
+
+      # if rubocop version found, then pass it to the gem install
+      # left it empty otherwise, so no version will be passed
+      if [ -n "$HAML_LINT_GEMFILE_VERSION" ]; then
+        HAML_LINT_VERSION=$HAML_LINT_GEMFILE_VERSION
+        else
+          printf "Cannot get the haml_lint's version from Gemfile.lock. The latest version will be installed."
+      fi
+      else
+        printf 'Gemfile.lock not found. The latest version will be installed.'
+    fi
+    else
+      # set desired rubocop version
+      HAML_LINT_VERSION=$INPUT_HAML_LINT_VERSION
+  fi
+
   echo '::group:: Installing haml-lint'
-  gem install haml_lint
+  gem install -N haml_lint  --version "${HAML_LINT_VERSION}"
 
   echo '::endgroup::'
 fi
